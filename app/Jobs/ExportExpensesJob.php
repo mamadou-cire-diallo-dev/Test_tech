@@ -53,15 +53,15 @@ class ExportExpensesJob implements ShouldQueue
             $fileName = 'exports/expenses-' . $this->export->id . '-' . time() . '.csv';
             $filePath = storage_path('app/public/' . $fileName);
 
-            // Ensure the directory exists
+            //
             Storage::disk('public')->makeDirectory('exports');
 
             $file = fopen($filePath, 'w');
 
-            // Add CSV headers
+            //  CSV headers
             fputcsv($file, ['ID', 'Title', 'Amount', 'Currency', 'Spent At', 'Category', 'Status']);
 
-            // Add CSV data
+            // CSV data
             foreach ($expenses as $expense) {
                 fputcsv($file, [
                     $expense->id,
@@ -76,17 +76,17 @@ class ExportExpensesJob implements ShouldQueue
 
             fclose($file);
 
-            \Log::info("ExportExpensesJob: Generated fileName: " . $fileName);
+
 
             $this->export->update([
                 'status' => 'READY',
                 'file_path' => $fileName
             ]);
-            \Log::info("ExportExpensesJob: Export record updated. Status: " . $this->export->status . ", File Path: " . $this->export->file_path);
+
 
         } catch (Throwable $e) {
             $this->export->update(['status' => 'FAILED']);
-            \Log::error("ExportExpensesJob failed: " . $e->getMessage() . " for export ID: " . $this->export->id);
+
         }
     }
 }

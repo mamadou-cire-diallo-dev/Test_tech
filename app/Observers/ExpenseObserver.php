@@ -24,7 +24,7 @@ class ExpenseObserver
         if ($expense->isDirty('status')) {
             ExpenseLog::create([
                 'expense_id' => $expense->id,
-                'user_id' => Auth::id(), // Assuming the user making the change is authenticated
+                'user_id' => Auth::id(),
                 'from_status' => $expense->getOriginal('status'),
                 'to_status' => $expense->status,
             ]);

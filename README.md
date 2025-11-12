@@ -1,59 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Application de Gestion des Notes de Frais
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet est une application Laravel pour la gestion des notes de frais, permettant aux employés de soumettre des dépenses et aux managers de les approuver, rejeter ou marquer comme payées. Il inclut une API REST sécurisée et une interface utilisateur minimale en Blade.
 
-## About Laravel
+## Fonctionnalités Implémentées
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Pour l'Employé
+*   Créer, modifier et soumettre ses propres notes de frais.
+*   Suivi du workflow de statut : DRAFT → SUBMITTED → (REJECTED ou APPROVED → PAID).
+*   Filtrer ses notes par période, catégorie, statut.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Pour le Manager
+*   Visualiser toutes les notes de frais (avec filtres).
+*   Approuver ou rejeter les notes de frais (avec motif).
+*   Marquer une dépense comme payée.
+*   Exporter les notes de frais approuvées au format CSV (par mois).
+*   Consulter des statistiques (totaux par catégorie et par mois).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### API
+Une API REST complète est disponible pour interagir avec l'application.
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Suivez ces étapes pour configurer et exécuter le projet localement :
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1.  **Cloner le dépôt :**
+    ```bash
+    git clone https://github.com/mamadou-cire-diallo-dev/Test_tech.git
+    cd TestTechnique_N_F
+    ```
 
-## Laravel Sponsors
+2.  **Installer les dépendances Composer :**
+    ```bash
+    composer install
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3.  **Copier le fichier d'environnement et configurer :**
+    ```bash
+    cp .env.example .env
+    ```
+    Ouvrez `.env` et configurez votre base de données (par exemple, MySQL ou SQLite).
 
-### Premium Partners
+4.  **Installer les dépendances Node.js et compiler les assets front-end :**
+    ```bash
+    npm install
+    npm run build # ou npm run dev pour le développement
+    ```
+    Ceci est nécessaire pour compiler le CSS (Tailwind CSS) et le JavaScript.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5.  **Générer la clé d'application :**
+    ```bash
+    php artisan key:generate
+    ```
 
-## Contributing
+6.  **Exécuter les migrations et les seeders :**
+    Ceci créera les tables de la base de données et insérera les comptes de test (manager et employés) ainsi que des notes de frais d'exemple.
+    ```bash
+    php artisan migrate --seed
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7.  **Lancer le serveur de développement Laravel :**
+    ```bash
+    php artisan serve
+    ```
+    L'application sera accessible à `http://127.0.0.1:8000`.
 
-## Code of Conduct
+## Comptes de Test
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Les seeders créent les comptes suivants pour faciliter les tests :
 
-## Security Vulnerabilities
+*   **Manager :**
+    *   Email : `manager1@gmail.com`
+    *   Mot de passe : `password`
+*   **Employé 1 :**
+    *   Email : `employee1@gmail.com`
+    *   Mot de passe : `password`
+*   **Employé 2 :**
+    *   Email : `employee2@gmail.com`
+    *   Mot de passe : `password`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## API Endpoints Clés
 
-## License
+Voici quelques-uns des endpoints API principaux :
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+*   `POST /api/login` : Authentification de l'utilisateur.
+*   `GET /api/expenses` : Liste filtrée des dépenses (nécessite authentification).
+*   `POST /api/expenses` : Création d'une dépense (nécessite authentification).
+*   `PUT /api/expenses/{id}` : Modification d'une dépense (nécessite authentification).
+*   `POST /api/expenses/{id}/submit` : Soumission d'une dépense par un employé.
+*   `POST /api/expenses/{id}/approve` : Approbation d'une dépense par un manager.
+*   `POST /api/expenses/{id}/reject` : Rejet d'une dépense par un manager.
+*   `POST /api/expenses/{id}/pay` : Marquage d'une dépense comme payée par un manager.
+*   `GET /api/stats/summary?period=YYYY-MM` : Statistiques des dépenses (mise en cache 60s).
+*   `POST /api/exports/expenses?status=APPROVED&period=YYYY-MM` : Lancement de l'export CSV.
+*   `GET /api/exports/{id}` : Récupération du lien de téléchargement de l'export.
+
+## Décisions Architecturales et Techniques
+
+*   **Laravel Sanctum :** Utilisé pour l'authentification API via des tokens.
+*   **Policies/Gates :** Implémentées pour une gestion fine des autorisations basées sur les rôles (`EMPLOYEE`, `MANAGER`) et les statuts des ressources.
+*   **FormRequests :** Utilisés pour la validation des requêtes entrantes, assurant la propreté et la sécurité des données.
+*   **Mise en Cache :** Les endpoints de statistiques (`/api/stats/summary`) sont mis en cache pendant 60 secondes pour optimiser les performances.
+*   **Jobs Laravel :** L'exportation des données au format CSV est gérée de manière asynchrone via un Job Laravel (`ExportExpensesJob`), permettant une meilleure scalabilité et expérience utilisateur.
+*   **Tests de Fonctionnalité :** Des tests de fonctionnalité sont inclus pour les scénarios clés de gestion des dépenses, assurant la fiabilité du workflow.
+
+
+## Exécution des Tests
+
+Pour exécuter les tests du projet, utilisez la commande suivante :
+
+```bash
+php artisan test
+```
