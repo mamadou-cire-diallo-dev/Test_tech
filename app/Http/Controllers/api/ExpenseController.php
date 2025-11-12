@@ -52,6 +52,9 @@ class ExpenseController extends Controller
 
         $user = Auth::user();
 
+        // Les employés ne peuvent voir que leurs propres dépenses.
+        // Les managers peuvent voir toutes les dépenses (géré par la policy 'viewAny').
+
         if ($user->role==='EMPLOYEE') {
             $query->where('user_id', $user->id);
         }

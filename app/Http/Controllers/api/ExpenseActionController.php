@@ -13,6 +13,9 @@ class ExpenseActionController extends Controller
 
     public  function submit(Expense $expense)
     {
+        // Autorise uniquement l'employé propriétaire à soumettre une dépense
+        // si son statut est DRAFT.
+
         $this->authorize('submit', $expense);
 
         $expense->update(['status' => 'SUBMITTED']);
@@ -26,6 +29,9 @@ class ExpenseActionController extends Controller
 
     public function approve(Expense $expense)
     {
+        // Autorise uniquement un manager à approuver une dépense.
+        // Le statut de la dépense doit être SUBMITTED (géré par la policy).
+
         $this->authorize('manage', Expense::class);
 
         $expense->update(['status' => 'APPROVED']);
@@ -38,6 +44,9 @@ class ExpenseActionController extends Controller
 
     public function reject(Request $request, Expense $expense)
     {
+        // Autorise uniquement un manager à rejeter une dépense.
+        // Le statut de la dépense doit être SUBMITTED (géré par la policy).
+
         $this->authorize('manage', Expense::class);
 
         // Motif
@@ -55,6 +64,9 @@ class ExpenseActionController extends Controller
 
     public function pay(Expense $expense)
     {
+        // Autorise uniquement un manager à marquer une dépense comme payée.
+        // Le statut de la dépense doit être APPROVED (géré par la policy).
+
         $this->authorize('manage', Expense::class);
 
         $expense->update(['status' => 'PAID']);

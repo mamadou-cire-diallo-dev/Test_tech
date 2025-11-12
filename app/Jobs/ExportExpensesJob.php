@@ -41,6 +41,9 @@ class ExportExpensesJob implements ShouldQueue
      */
     public function handle(): void
     {
+        // Ce Job est responsable de la génération asynchrone d'un fichier CSV
+        // contenant les dépenses filtrées, et de la mise à jour du statut de l'export.
+
         try {
             $period = $this->export->meta['period'];
             $status = $this->export->meta['status'];
@@ -85,6 +88,8 @@ class ExportExpensesJob implements ShouldQueue
 
 
         } catch (Throwable $e) {
+            // En cas d'erreur lors de l'exportation, marquer l'export comme FAILED.
+
             $this->export->update(['status' => 'FAILED']);
 
         }

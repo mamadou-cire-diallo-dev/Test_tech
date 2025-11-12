@@ -13,6 +13,9 @@ class StatsController extends Controller
 {
             public function summary(Request $request)
             {
+                // Seuls les managers sont autorisés à consulter les statistiques.
+                // La politique 'manage' de ExpensePolicy est utilisée ici.
+
                 $this->authorize('manage', Expense::class);
         
                 $validated = $request->validate([
@@ -21,6 +24,9 @@ class StatsController extends Controller
         
                 $period = $validated['period'] ?? null;
                 $cacheKey = 'stats.summary.' . ($period ?? 'all');
+
+                // Les statistiques sont mises en cache pour 60 secondes afin d'optimiser
+                // les performances, surtout si elles sont fréquemment demandées.
         
                 $stats = Cache::remember($cacheKey, now()->addSeconds(60), function () use ($period) {
                     $query = Expense::query();

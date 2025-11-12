@@ -12,11 +12,11 @@ class AuthTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test user login with valid credentials.
+     * Test de la connexion utilisateur avec des identifiants valides.
      *
      * @return void
      */
-    public function test_user_can_login_with_valid_credentials()
+    public function test_un_utilisateur_peut_se_connecter_avec_des_identifiants_valides()
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
@@ -33,11 +33,11 @@ class AuthTest extends TestCase
     }
 
     /**
-     * Test user login with invalid credentials.
+     * Test de la connexion utilisateur avec des identifiants invalides.
      *
      * @return void
      */
-    public function test_user_cannot_login_with_invalid_credentials()
+    public function test_un_utilisateur_ne_peut_pas_se_connecter_avec_des_identifiants_invalides()
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
@@ -53,11 +53,11 @@ class AuthTest extends TestCase
     }
 
     /**
-     * Test user can logout.
+     * Test qu'un utilisateur peut se déconnecter.
      *
      * @return void
      */
-    public function test_user_can_logout()
+    public function test_un_utilisateur_peut_se_deconnecter()
     {
         $user = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;

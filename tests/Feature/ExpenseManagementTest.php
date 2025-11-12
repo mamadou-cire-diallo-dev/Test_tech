@@ -19,11 +19,11 @@ class ExpenseManagementTest extends TestCase
     }
 
     /**
-     * Test an employee can create an expense.
+     * Test qu'un employé peut créer une note de frais.
      *
      * @return void
      */
-    public function test_employee_can_create_an_expense()
+    public function test_un_employe_peut_creer_une_note_de_frais()
     {
         $employee = User::factory()->create(['role' => 'EMPLOYEE']);
         $token = $employee->createToken('test-token')->plainTextToken;
@@ -51,11 +51,11 @@ class ExpenseManagementTest extends TestCase
     }
 
     /**
-     * Test a manager can approve a submitted expense.
+     * Test qu'un manager peut approuver une note de frais soumise.
      *
      * @return void
      */
-    public function test_manager_can_approve_a_submitted_expense()
+    public function test_un_manager_peut_approuver_une_note_de_frais_soumise()
     {
         $manager = User::factory()->create(['role' => 'MANAGER']);
         $employee = User::factory()->create(['role' => 'EMPLOYEE']);
@@ -86,11 +86,11 @@ class ExpenseManagementTest extends TestCase
     }
 
     /**
-     * Test a manager can reject a submitted expense with a comment.
+     * Test qu'un manager peut rejeter une note de frais soumise avec un commentaire.
      *
      * @return void
      */
-    public function test_manager_can_reject_a_submitted_expense_with_comment()
+    public function test_un_manager_peut_rejeter_une_note_de_frais_soumise_avec_un_commentaire()
     {
         $manager = User::factory()->create(['role' => 'MANAGER']);
         $employee = User::factory()->create(['role' => 'EMPLOYEE']);
