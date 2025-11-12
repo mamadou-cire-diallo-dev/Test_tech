@@ -31,8 +31,10 @@ class ExportController extends Controller
 
         ExportExpensesJob::dispatch($export);
 
+
+
         return response()->json([
-            'message' => 'Export started successfully.',
+            'message' => 'En cours d\'exportation',
             'export_id' => $export->id,
         ], 202);
     }
@@ -51,18 +53,18 @@ class ExportController extends Controller
         } elseif ($export->status === 'PENDING') {
             return response()->json([
                 'status' => $export->status,
-                'message' => 'Export is still being processed. Please try again later.',
+                'message' => 'Export en cours ',
             ], 202);
         } elseif ($export->status === 'FAILED') {
             return response()->json([
                 'status' => $export->status,
-                'message' => 'Export failed. Please contact support.',
+                'message' => 'L\'exportation à  échouer',
             ], 500);
         }
 
         return response()->json([
             'status' => $export->status,
-            'message' => 'Export file not found or not ready.',
+            'message' => 'fichier a exporter est introuvable ou n\'est pas prêt ! '
         ], 404);
     }
 }

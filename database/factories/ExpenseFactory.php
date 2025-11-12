@@ -18,16 +18,16 @@ class ExpenseFactory extends Factory
      */
     public function definition(): array
     {
-
+        $user = User::select('id')->get()->pluck('id')->toArray();
         return [
-            'user_id' => User::factory(), // Assign a user by default
+            'user_id' => $this->faker->randomElement($user),
             'title' => $this->faker->sentence(3),
             'amount' => $this->faker->randomFloat(2, 10, 500),
             'currency' => 'EUR',
             'spent_at' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
             'category' => $this->faker->randomElement(['MEAL', 'TRAVEL', 'HOTEL', 'OTHER']),
             'receipt_path' => null,
-            'status' => 'DRAFT', // Default status
+            'status' => 'DRAFT',
         ];
     }
 }

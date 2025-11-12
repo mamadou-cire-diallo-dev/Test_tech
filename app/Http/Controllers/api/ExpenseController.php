@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ExpenseController extends Controller
 {
@@ -55,6 +56,8 @@ class ExpenseController extends Controller
             $query->where('user_id', $user->id);
         }
 
+
+
         return response()->json([$query->get()]);
 
     }
@@ -77,6 +80,7 @@ class ExpenseController extends Controller
           'spent_at' => $request->spent_at,
           'status' => 'DRAFT',
         ]) ;
+
 
         return response()->json([
             'message'=>'Dépenses créer avec succès',

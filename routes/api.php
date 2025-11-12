@@ -10,14 +10,14 @@ Route::get('/',function(){
     return response()->json(["message"=>"API test Technique"]);
 });
 
-Route::post('/login',[AuthController::class,'login'])->name('login');
+Route::post('/login',[AuthController::class,'login']);
 
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::delete('/logout',[AuthController::class,'logout'])->name('logout');
+    Route::delete('/logout',[AuthController::class,'logout']);
 
 
-    Route::name('expenses.')->prefix('expenses') ->controller(ExpenseController::class)->group(function(){
+    Route::name('expensesApi.')->prefix('expenses') ->controller(ExpenseController::class)->group(function(){
         Route::get('/','index')->name('index');
         Route::post('/','store')->name('store');
         Route::put('/{expense}','update')->name('update');

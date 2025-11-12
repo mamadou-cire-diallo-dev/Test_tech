@@ -49,7 +49,7 @@ class AuthTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        $response->assertStatus(401); // Changed from 422 to 401, removed assertJsonValidationErrors
+        $response->assertStatus(401);
     }
 
     /**
@@ -67,6 +67,6 @@ class AuthTest extends TestCase
         ])->deleteJson('/api/logout');
 
         $response->assertStatus(200)
-                 ->assertJson(['message' => 'Déconnexion réussis']); // Changed message to French
+                 ->assertJson(['message' => 'Déconnexion réussis']);
     }
 }
