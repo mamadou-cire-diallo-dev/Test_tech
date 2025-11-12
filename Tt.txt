@@ -1,0 +1,158 @@
+Bonjour, bienvenu dans processus de sélection 
+
+🎯 Test technique – Développeur PHP Laravel (Back-End)
+
+Objectif du test
+
+Cet exercice a pour but d’évaluer vos compétences en développement back-end Laravel, votre rigueur technique, votre autonomie, et votre capacité à livrer un code propre, commenté et fonctionnel dans les temps.
+Le front-end n’est pas prioritaire : un rendu simple en Blade suffit.
+
+📅 Date limite de remise : mercredi 12 novembre 2025 à 23h59 (heure de Paris)
+🎥 Livrables :
+	1.	Une vidéo (5 à 10 min) présentant votre travail.
+	2.	Le lien vers votre dépôt GitHub ou GitLab contenant le code complet.
+👉 À transmettre directement sur LinkedIn en message privé.
+
+Sujet : Gestion de notes de frais & workflow d’approbation
+
+Vous devez développer une application Laravel permettant à des employés de soumettre des notes de frais, et à un manager de les valider, rejeter ou marquer comme payées.
+
+L’application doit inclure :
+	•	une API REST documentée et sécurisée,
+	•	une interface simple (Blade, Bootstrap autorisé),
+	•	des fonctionnalités de cache, d’export CSV et de tests unitaires,
+	•	un code lisible et commenté, sans recours à l’IA générative.
+
+⸻
+
+Spécifications fonctionnelles
+
+1. Authentification et rôles
+	•	Deux rôles : EMPLOYEE et MANAGER.
+	•	Authentification via Laravel Sanctum ou session classique.
+	•	Création automatique (via seeders) de :
+	•	1 compte manager
+	•	2 comptes employés
+	•	10 notes de frais d’exemple
+
+2. Modèles de données
+
+users
+	•	id, name, email, password, role (EMPLOYEE|MANAGER)
+
+expenses
+	•	id, user_id, title, amount DECIMAL(10,2), currency='EUR', spent_at DATE,
+	•	category (MEAL|TRAVEL|HOTEL|OTHER), receipt_path (nullable),
+	•	status (DRAFT|SUBMITTED|APPROVED|REJECTED|PAID), timestamps
+
+expense_logs
+	•	id, expense_id, user_id, from_status, to_status, created_at
+(Historique obligatoire de chaque changement de statut)
+
+comments (optionnel)
+	•	pour laisser un motif lors d’un rejet.
+
+exports
+	•	id, user_id, status (PENDING|READY|FAILED), file_path, meta JSON, timestamps
+
+⸻
+
+3. Fonctionnalités principales
+
+Employé
+	•	Créer, modifier et soumettre ses propres notes de frais.
+	•	Statuts possibles : DRAFT → SUBMITTED → (REJECTED ou APPROVED → PAID).
+	•	Filtrer ses notes par période, catégorie, statut.
+
+Manager
+	•	Visualiser toutes les notes de frais (avec filtres).
+	•	Approuver ou rejeter avec motif.
+	•	Marquer une dépense comme payée.
+	•	Exporter les notes de frais approuvées au format CSV (par mois).
+	•	Consulter des statistiques (totaux par catégorie et par mois).
+
+⸻
+
+4. API attendue (format JSON)
+
+Méthode	Endpoint	Description
+POST	/api/login	Authentification
+GET	/api/expenses	Liste filtrée des dépenses
+POST	/api/expenses	Création (DRAFT)
+PUT	/api/expenses/{id}	Modification (si DRAFT/REJECTED)
+POST	/api/expenses/{id}/submit	Soumission employé
+POST	/api/expenses/{id}/approve	Approbation manager
+POST	/api/expenses/{id}/reject	Rejet manager (motif requis)
+POST	/api/expenses/{id}/pay	Paiement manager
+GET	/api/stats/summary?period=YYYY-MM	Statistiques (cache 60s)
+POST	/api/exports/expenses?status=APPROVED&period=YYYY-MM	Lancement export CSV
+GET	/api/exports/{id}	Récupération du lien de téléchargement
+
+⸻
+
+5. Contraintes techniques
+	•	Laravel ≥ 10.x
+	•	Policies/Gates pour sécuriser les actions.
+	•	FormRequest pour la validation.
+	•	Cache (60 secondes sur les statistiques).
+	•	Job Laravel pour l’export CSV (queue sync autorisée).
+	•	Tests (au moins 3 Feature tests).
+	•	Commentaires explicatifs dans le code (méthodes clés, contrôleurs, jobs…).
+	•	Fichier NO_AI.md attestant que l’exercice a été réalisé sans IA.
+
+⸻
+
+6. Mini front (Blade)
+
+Deux pages suffisent :
+	•	Employé : liste + création/modification de ses dépenses.
+	•	Manager : tableau global avec actions (Approuver / Rejeter / Payer) et export CSV.
+Style sobre, Bootstrap autorisé. L’objectif reste le back-end.
+
+⸻
+
+7. Bonus (facultatif)
+	•	Upload de justificatifs (avec validation du type et de la taille).
+	•	Notification (log mail) lors d’une approbation ou d’un rejet.
+	•	Documentation API en OpenAPI/Swagger.
+	•	Docker/Sail pour le setup.
+
+⸻
+
+8. Critères d’évaluation (100 pts)
+
+Critère	Points
+Architecture et organisation du code	20
+Sécurité (auth, policies, rate limit)	15
+Qualité du code (lisibilité, commentaires)	15
+Fonctionnalité (workflow complet)	20
+Gestion du cache et export asynchrone	10
+Tests unitaires (≥3 Feature)	10
+Front minimal (Blade)	5
+Git, README, livrables complets	3
+Remise dans les temps (avant mercredi 12/11/25)	2
+
+Total : 100 points
+
+ ⚠️ tout retard est rédhibitoire (quelque soit la justification)
+⚠️ l’utilisation abusive de l’IA pour ce challenge est tout simplement eliminatoire  
+
+⸻
+
+9. Livrables à fournir
+	1.	Lien du dépôt GitHub/GitLab contenant :
+	•	Code complet + migrations + seeders + tests.
+	•	README.md clair : installation, comptes, décisions, limites.
+	•	NO_AI.md (déclaration anti-IA).
+	•	(Optionnel) SUBMISSION.md avec la commande de tag et le hash du commit final.
+	2.	Vidéo (5–10 min) montrant :
+	•	Démo du flux complet (employé → manager → export).
+	•	Survol du code (routes, controllers, policies, jobs, cache).
+	•	Résultat de php artisan test.
+	•	Affichage d’une horloge système au début de la vidéo.
+
+⸻
+
+10. Délai & validation
+	•	Date limite de rendu : mercredi 12 novembre 2025 – 23h59 (heure de Paris)
+	•	Remise sur LinkedIn : message privé contenant la vidéo + lien du repo.
